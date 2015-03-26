@@ -23,14 +23,31 @@ app.use(bodyParser.json());
 
 // middleware
 router.use(function(req, res, next) {
-	console.log('the happening');
 	next(); // cant stop wont stop.
+	// TODO: Auth!
 });
 
 // index
 router.get('/', function(req, res) {
 	res.json({
 		message:'yee'
+	});
+});
+router.route('/users').post(function(req, res) {
+	var user = new User();
+	user.username = req.body.username;
+
+	if (!user.username) {
+		return false;
+	}
+
+	user.save(function(err) {
+		if (err) {
+			res.send(err);
+		}
+		res.json({
+			message:'User created!'
+		});
 	});
 });
 
