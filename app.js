@@ -6,6 +6,9 @@
 var express 	= require('express');
 var app			= express();
 var bodyParser	= require('body-parser');
+var port 		= process.env.PORT || 8080;
+var router 		= express.Router();
+var mongoose	= require('mongoose');
 
 // config app to use bodyParser()
 app.use(bodyParser.urlencoded({
@@ -13,13 +16,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080;
-
 /*
  * Routes
  */
-var router = express.Router();
-
 router.get('/', function(req, res) {
 	res.json({
 		message:'yee'
@@ -28,6 +27,11 @@ router.get('/', function(req, res) {
 
 // all routes have /api/ prefix
 app.use('/api', router);
+
+/*
+ * Database
+ */
+mongoose.connect('mongodb://api:prUja9rE@ds049181.mongolab.com:49181/gumption');
 
 app.listen(port);
 console.log('port ' + port + ', ya dinkus');
