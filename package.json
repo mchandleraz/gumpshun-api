@@ -1,0 +1,9 @@
+{
+  "name": "gumption-api",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "^5.0.0-alpha.1",
+    "mongoose": "^4.0.0"
+  }
+}
