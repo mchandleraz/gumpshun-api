@@ -20,6 +20,14 @@ app.use(bodyParser.json());
 /*
  * Routes
  */
+
+// middleware
+router.use(function(req, res, next) {
+	console.log('the happening');
+	next(); // cant stop wont stop.
+});
+
+// index
 router.get('/', function(req, res) {
 	res.json({
 		message:'yee'
