@@ -33,6 +33,8 @@ router.get('/', function(req, res) {
 		message:'yee'
 	});
 });
+
+// users
 router.route('/users')
 
 	.post(function(req, res) {
@@ -58,6 +60,17 @@ router.route('/users')
 				res.send(err);
 			}
 			res.json(users);
+		});
+	});
+
+// single user
+router.route('/user/:user_id')
+	.get(function(req, res) {
+		User.findById(req.params.user_id, function(err, user) {
+			if (err) {
+				res.send(err);
+			}
+			res.json(bear);
 		});
 	});
 
