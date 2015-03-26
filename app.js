@@ -25,3 +25,9 @@ router.get('/', function(req, res) {
 		message:'yee'
 	});
 });
+
+// all routes have /api/ prefix
+app.use('/api', router);
+
+app.listen(port);
+console.log('port ' + port + ', ya dinkus');
