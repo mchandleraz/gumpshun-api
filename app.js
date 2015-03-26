@@ -72,7 +72,27 @@ router.route('/user/:user_id')
 			}
 			res.json(bear);
 		});
+	})
+	.put(function(req, res) {
+		User.findById(req.params.user_id, function(err, user) {
+			if (err) {
+				res.send(err);
+			}
+			
+			user.username = req.body.username;
+
+			user.save(function(err) {
+				if (err) {
+					res.send(err);
+				}
+
+				res.json({
+					message:'User updated!'
+				});
+			});
+		});
 	});
+
 
 // all routes have /api/ prefix
 app.use('/api', router);
