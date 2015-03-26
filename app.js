@@ -33,23 +33,33 @@ router.get('/', function(req, res) {
 		message:'yee'
 	});
 });
-router.route('/users').post(function(req, res) {
-	var user = new User();
-	user.username = req.body.username;
+router.route('/users')
 
-	if (!user.username) {
-		return false;
-	}
+	.post(function(req, res) {
+		var user = new User();
+		user.username = req.body.username;
 
-	user.save(function(err) {
-		if (err) {
-			res.send(err);
+		if (!user.username) {
+			return false;
 		}
-		res.json({
-			message:'User created!'
+
+		user.save(function(err) {
+			if (err) {
+				res.send(err);
+			}
+			res.json({
+				message:'User created!'
+			});
+		});
+	})
+	.get(function(req, res) {
+		User.find(function(err, users) {
+			if (err) {
+				res.send(err);
+			}
+			res.json(users);
 		});
 	});
-});
 
 // all routes have /api/ prefix
 app.use('/api', router);
