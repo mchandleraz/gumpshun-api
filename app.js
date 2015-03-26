@@ -9,6 +9,7 @@ var bodyParser	= require('body-parser');
 var port 		= process.env.PORT || 8080;
 var router 		= express.Router();
 var mongoose	= require('mongoose');
+var User		= require('./app/models/user');
 
 // config app to use bodyParser()
 app.use(bodyParser.urlencoded({
