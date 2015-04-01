@@ -9,7 +9,7 @@ var bodyParser	= require('body-parser');
 var port 		= process.env.PORT || 8080;
 var router 		= express.Router();
 var mongoose	= require('mongoose');
-var User		= require('./app/models/user');
+var Alert		= require('./app/models/alert');
 
 // config app to use bodyParser()
 app.use(bodyParser.urlencoded({
@@ -34,39 +34,40 @@ router.get('/', function(req, res) {
 	});
 });
 
-// users
-router.route('/users')
-
+// alerts
+router.route('/alerts')
 	.post(function(req, res) {
-		var user = new User();
-		user.username = req.body.username;
+		var alert = new Alert();
+		alert.id = req.body.id;
+		alert.createdBy = req.body.user;
+		alert.time = Date.now();
 
-		if (!user.username) {
+		if (!alert.id || !alert.createdBy || !alert.time) {
 			return false;
 		}
 
-		user.save(function(err) {
+		alert.save(function(err) {
 			if (err) {
 				res.send(err);
 			}
 			res.json({
-				message:'User created!'
+				message:'Alert created!'
 			});
 		});
 	})
 	.get(function(req, res) {
-		User.find(function(err, users) {
+		Alert.find(function(err, alerts) {
 			if (err) {
 				res.send(err);
 			}
-			res.json(users);
+			res.json(alerts);
 		});
 	});
 
-// single user
-router.route('/user/:user_id')
+// single alert
+router.route('/alert/:alert_id')
 	.get(function(req, res) {
-		User.findById(req.params.user_id, function(err, user) {
+		Alert.findById(req.params.alert_id, function(err, alert) {
 			if (err) {
 				res.send(err);
 			}
@@ -74,33 +75,33 @@ router.route('/user/:user_id')
 		});
 	})
 	.put(function(req, res) {
-		User.findById(req.params.user_id, function(err, user) {
+		Alert.findById(req.params.alert_id, function(err, alert) {
 			if (err) {
 				res.send(err);
 			}
 			
-			user.username = req.body.username;
+			alert.alertname = req.body.alertname;
 
-			user.save(function(err) {
+			alert.save(function(err) {
 				if (err) {
 					res.send(err);
 				}
 
 				res.json({
-					message:'User updated!'
+					message:'Alert updated!'
 				});
 			});
 		});
 	})
 	.delete(function(req, res) {
-		User.remove({
-			_id: req.params.user_id
-		}, function(err, user) {
+		Alert.remove({
+			_id: req.params.alert_id
+		}, function(err, alert) {
 			if (err) {
 				res.send(err);
 			}
 			res.json({
-				message:'User deleted'
+				message:'Alert deleted'
 			});
 		});
 	});
